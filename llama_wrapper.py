@@ -5,6 +5,10 @@ from matplotlib.ticker import ScalarFormatter
 from utils.helpers import add_vector_after_position, find_instruction_end_postion
 from utils.tokenize_llama import tokenize_llama
 from typing import Tuple, Optional, List
+import warnings
+
+# Ignore the specific FutureWarning
+warnings.filterwarnings(action='ignore', category=FutureWarning, message=".*use_auth_token.*")
 
 
 class AttnWrapper(t.nn.Module):

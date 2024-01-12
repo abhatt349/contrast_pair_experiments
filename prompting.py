@@ -212,8 +212,6 @@ def test_prompting(
     return
 
 
-
-
 def test_steering(
     layers: List[int], multipliers: List[int], settings: SteeringSettings
 ):
@@ -298,6 +296,9 @@ def test_steering(
                 "w",
             ) as f:
                 json.dump(results, f, indent=4)
+
+
+
 
 
 if __name__ == "__main__":

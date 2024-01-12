@@ -7,6 +7,10 @@ import json
 from tqdm import tqdm
 from glob import glob
 from openai import OpenAI
+import warnings
+
+# Ignore the specific FutureWarning
+warnings.filterwarnings(action='ignore', category=FutureWarning, message=".*use_auth_token.*")
 
 
 load_dotenv()
