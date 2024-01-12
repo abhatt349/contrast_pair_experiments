@@ -4,11 +4,13 @@ import json
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from typing import List, Tuple, Optional
 from tqdm import tqdm
-import torch
+import torch as t
 
 B_INST, E_INST = "[INST]", "[/INST]"
 B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
 SYSTEM_PROMPT = "You are a helpful, honest and concise assistant."
+TEMPERATURE = 0.01
+DEVICE = 'cuda:4' if t.cuda.is_available() else 'cpu'
 
 
 def tokenize_llama_chat(
@@ -65,14 +67,14 @@ def zero_shot(model, tokenizer, input_filename, output_filename):
     for question in tqdm(questions):
         conversation = [(str(question['question']), None)]
         input_ids = tokenize_llama_chat(tokenizer, SYSTEM_PROMPT, conversation) # type: ignore
-        input_ids_tensor = torch.tensor([input_ids])  # Convert input_ids to a torch tensor
-        output = model.generate(input_ids_tensor, max_new_tokens=100, temperature=0)
-        response = tokenizer.decode(output[0], skip_special_tokens=True)
+        input_ids_tensor = t.tensor([input_ids]).to(DEVICE)
+        output = model.generate(input_ids_tensor, max_new_tokens=100, temperature=TEMPERATURE)
+        response = tokenizer.decode(output[0], skip_special_tokens=True).split('[/INST]')[-1].strip()
         responses.append({"question": question["question"], "response": response})
 
     # Save the responses along with the questions to the output JSON file
     with open(output_filename, "w") as file:
-        json.dump(responses, file)
+        json.dump(responses, file, indent=4)
 
 def few_shot(model, tokenizer, input_filename, output_filename, examples: List[Tuple[str, Optional[str]]]):
     # Load the questions from the input JSON file
@@ -84,11 +86,12 @@ def few_shot(model, tokenizer, input_filename, output_filename, examples: List[T
     for question in tqdm(questions):
         conversation = examples + [(str(question['question']), None)]
         input_ids = tokenize_llama_chat(tokenizer, SYSTEM_PROMPT, conversation)
-        output = model.generate(input_ids, max_new_tokens=100)
-        response = tokenizer.decode(output[0], skip_special_tokens=True, temperature=0)
+        input_ids_tensor = t.tensor([input_ids]).to(DEVICE)
+        output = model.generate(input_ids_tensor, max_new_tokens=100, temperature=TEMPERATURE)
+        response = tokenizer.decode(output[0], skip_special_tokens=True).split('[/INST]')[-1].strip()
         responses.append({"question": question["question"], "response": response})
 
     # Save the responses along with the questions to the output JSON file
     with open(output_filename, "w") as file:
-        json.dump(responses, file)
+        json.dump(responses, file, indent=4)
 
