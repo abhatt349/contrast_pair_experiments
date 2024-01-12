@@ -4,8 +4,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import json
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from typing import List, Tuple, Optional, Dict
-import prompting_from_scratch
-from prompting_from_scratch import zero_shot, few_shot
+import contrast_pairs_experiment.open_ended_prompting as open_ended_prompting
+from contrast_pairs_experiment.open_ended_prompting import zero_shot, few_shot
 from claude_scoring import evaluate_json
 import os
 import torch as t
@@ -169,7 +169,7 @@ model = AutoModelForCausalLM.from_pretrained('meta-llama/Llama-2-7b-chat-hf').to
 tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-2-7b-chat-hf')
 # %%
 
-importlib.reload(prompting_from_scratch)
+importlib.reload(open_ended_prompting)
 run_tests_few_shot(model, tokenizer, test_filename, flipped_examples, run_str = "flipped")
 # run_tests(model, tokenizer, test_filename, examples)
 
@@ -203,5 +203,6 @@ print('few-shot score:', few_shot_score)
 
 
 
+# %%
 if __name__ == "__main__":
     main()

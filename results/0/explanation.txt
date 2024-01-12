@@ -1,0 +1,2 @@
+the few-shot outputs here use preprocessed_data/examples.json 
+these were all run on jan 12
