@@ -19,6 +19,10 @@ import sys
 import matplotlib.pyplot as plt
 from einops import reduce, repeat, rearrange
 import argparse
+from openai import OpenAI
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI()
 
 B_INST, E_INST = "[INST]", "[/INST]"
 B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
@@ -207,7 +211,7 @@ def extract_scores(scored_data_filename):
 def run_tests_few_shot(model, tokenizer, test_filename, examples: List[Tuple[str, str]], subfolder = "", run_str = "", batch_size=1, oneprompt=False):
 
     # test few-shot model for a baseline
-    few_shot_output_file = os.path.join("results/"+subfolder, f"few_shot_output_{run_str}.json")
+    # few_shot_output_file = os.path.join("results/"+subfolder, f"few_shot_output_{run_str}.json")
     print(f'Testing few_shot on {test_filename}')
     # Load the questions from the input JSON file
     with open(test_filename, "r") as file:
@@ -226,19 +230,22 @@ def run_tests_few_shot(model, tokenizer, test_filename, examples: List[Tuple[str
                 user_input += f"Assistant: {example[1]}\n\n"
             user_input += "Now, answer the following question in the same format, following these examples.\n\nUser: "
             conversations = [[(user_input+str(question['question']), 'Assistant: My answer is: (')] for question in batch]
+
+            histories = [[{'role':'system', 'content':SYSTEM_PROMPT}, {'role':'user', 'text':conversations[0][0][0]}] for conv in conversations]
+
+            
         with open(f'results/tmp/{subfolder}/{run_str}_oneprompt={oneprompt}_conversations.json', 'w') as f:
             json.dump(conversations, f, indent=4)
-        input_ids = tokenize_llama_chat_batched(tokenizer, SYSTEM_PROMPT, conversations, no_final_eos=True) # type: ignore
-        input_ids_tensor = input_ids.input_ids.to(DEVICE) # type: ignore
-        attn_mask = input_ids.attention_mask.to(DEVICE) # type: ignore
-        all_logits = model(
-                            input_ids=input_ids_tensor, 
-                            attention_mask=attn_mask,
-                            return_dict=True
-                        ).logits[:,:,[29909, 29933]]
 
-        sequence_positions = list((attn_mask.sum(dim=1) - 1).cpu().numpy())
-        matching_indices = [0 if question['answer_matching_behavior']=='(A)' else 1 for question in batch]
+
+        response = client.chat.completions.create(
+                model="gpt-4-1106-preview",
+                messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": human_message}],
+                temperature=0.0,
+                max_tokens=15,
+                n=1,
+            )
+        
         for i, (seq_pos, matching_idx) in enumerate(zip(sequence_positions, matching_indices)):
             score = t.softmax(all_logits[i, seq_pos], dim=0)[matching_idx].cpu().numpy()
             few_shot_scored_data.append(float(score))
