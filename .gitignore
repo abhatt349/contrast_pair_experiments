@@ -19,7 +19,7 @@ mcq_experiments_api.py
 mcq_prompting.py
 open_ended*.py
 prompting.py
-replicated_prompting.py
+replicate_prompting.py
 *.json
 openai_api_key.txt
 temp*
