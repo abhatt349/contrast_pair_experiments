@@ -63,21 +63,25 @@ def convert_test_set_to_pure_casing_flipped(test_filename, new_filename):
     
 # %%
 
-convert_test_set_to_casing('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/casing_test_dataset.json')
-convert_test_set_to_casing('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/casing_examples_full.json')
+if __name__ == '__main__':
+    convert_test_set_to_casing('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/casing_test_dataset.json')
+    convert_test_set_to_casing('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/casing_examples_full.json')
 
-# %%
+    # %%
 
-convert_test_set_to_casing('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/casing_test_dataset.json')
-convert_test_set_to_casing('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/casing_examples_full.json')
+if __name__ == '__main__':
+    convert_test_set_to_casing('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/casing_test_dataset.json')
+    convert_test_set_to_casing('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/casing_examples_full.json')
 
-# %%
+    # %%
 
-convert_test_set_to_pure_casing('preprocessed_data/mcq_test_dataset_2.json', 'preprocessed_data/pure_casing_test_dataset_2.json')
+if __name__ == '__main__':
+    convert_test_set_to_pure_casing('preprocessed_data/mcq_test_dataset_2.json', 'preprocessed_data/pure_casing_test_dataset_2.json')
 
-# %%
+    # %%
 
-convert_test_set_to_pure_casing_flipped('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/pure_casing_flipped_test_dataset.json')
-convert_test_set_to_pure_casing_flipped('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/pure_casing_flipped_examples_full.json')
+if __name__ == '__main__':
+    convert_test_set_to_pure_casing_flipped('preprocessed_data/mcq_test_dataset.json', 'preprocessed_data/pure_casing_flipped_test_dataset.json')
+    convert_test_set_to_pure_casing_flipped('preprocessed_data/mcq_examples_full.json', 'preprocessed_data/pure_casing_flipped_examples_full.json')
 
-# %%
+    # %%

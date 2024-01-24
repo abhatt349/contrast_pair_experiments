@@ -10,5 +10,16 @@ finetuned_models
 sync_model.sh
 logs
 results
+claude_scoring.py
+debugging.py
+finetuning.py
+llama_wrapper.py
+mcq_experiments.py
+mcq_experiments_api.py
+mcq_prompting.py
+open_ended*.py
+prompting.py
+replicated_prompting.py
+*.json
 openai_api_key.txt
 temp*
