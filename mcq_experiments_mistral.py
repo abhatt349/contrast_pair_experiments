@@ -313,11 +313,16 @@ def parse_args():
         args.sysprompt = new_prompt
     global SYSTEM_PROMPT 
     SYSTEM_PROMPT = args.sysprompt
-    global B_INST, E_INST
+    global B_INST, E_INST, A_TOKEN, B_TOKEN, B_SYS, E_SYS
     if "chat" in args.model.lower() or "instruct" in args.model.lower():
         B_INST, E_INST = "[INST]", "[/INST]"
+        B_SYS, E_SYS = "<<SYS>>\n", "<</SYS>>\n\n"
     else:
         B_INST, E_INST = "", ""
+    if "mistral" in args.model.lower():
+        A_TOKEN, B_TOKEN = 28741, 28760
+    if "llama" in args.model.lower():
+        A_TOKEN, B_TOKEN = 29909, 29933
     if not os.path.exists(f"results/{args.subfolder}"):
         os.makedirs(f"results/{args.subfolder}")
     if not os.path.exists(f"results/tmp/{args.subfolder}"):

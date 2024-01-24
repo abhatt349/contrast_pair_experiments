@@ -101,3 +101,11 @@ xxhash==3.3.0
 yarl==1.9.2
 zipp==3.17.0
 openai==1.7.1
+gputil==1.4.0
+einops==0.7.0
+replicate==0.22.0
+flash_attn==2.4.2
+lion_pytorch==0.1.2
+peft==0.7.1
+bitsandbytes==0.42.0
+trl==0.7.9

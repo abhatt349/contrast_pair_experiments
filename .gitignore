@@ -9,3 +9,6 @@ notebooks/scratch.ipynb
 finetuned_models
 sync_model.sh
 logs
+results
+openai_api_key.txt
+temp*
