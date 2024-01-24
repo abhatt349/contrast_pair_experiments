@@ -174,12 +174,12 @@ if __name__ == "__main__":
             flipped_results = results
             mixed_results = results
         print(f"count: {len(results)}")
-        print(f"stdv between few-shot prompts: {100*np.std(np.array(results))}")
-        print(f"stdv between flipped prompts: {100*np.std(np.array(flipped_results))}")
-        print(f"stdv between mixed prompts: {100*np.std(np.array(mixed_results))}")
-        print(f"stdv in mean of few-shot prompts: {100*np.std(np.array(results))/np.sqrt(len(results))}")
-        print(f"stdv in mean of flipped prompts: {100*np.std(np.array(flipped_results))/np.sqrt(len(flipped_results))}")
-        print(f"stdv in mean of mixed prompts: {100*np.std(np.array(mixed_results))/np.sqrt(len(mixed_results))}")
+        print(f"stdv between few-shot prompts: {100*np.std(np.array(results))}") # type: ignore
+        print(f"stdv between flipped prompts: {100*np.std(np.array(flipped_results))}") # type: ignore
+        print(f"stdv between mixed prompts: {100*np.std(np.array(mixed_results))}") # type: ignore
+        print(f"stdv in mean of few-shot prompts: {100*np.std(np.array(results))/np.sqrt(len(results))}") # type: ignore
+        print(f"stdv in mean of flipped prompts: {100*np.std(np.array(flipped_results))/np.sqrt(len(flipped_results))}") # type: ignore
+        print(f"stdv in mean of mixed prompts: {100*np.std(np.array(mixed_results))/np.sqrt(len(mixed_results))}") # type: ignore
         print()
 
 # %%
