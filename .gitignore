@@ -9,7 +9,7 @@ notebooks/scratch.ipynb
 finetuned_models
 sync_model.sh
 logs
-results
+results/*
 claude_scoring.py
 debugging.py
 finetuning.py
